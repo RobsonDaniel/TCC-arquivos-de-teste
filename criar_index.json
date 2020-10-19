@@ -1,0 +1,86 @@
+PUT /ssc_sensor
+{
+  "mappings": {
+    "properties": {
+      "id": {"type": "integer"},
+      "nome_sensor": {"type": "keyword"},
+      "valor": {"type": "integer"},
+      "timestamp": {"type": "date", "format": "yyyy-MM-dd HH:mm:ss"}
+    }
+  }
+}
+
+PUT /ssc_informacao
+{
+  "mappings": {
+    "properties": {
+    	"hostname": {"type": "keyword"},
+    	"ip": {"type": "ip"},
+    	"mac": {"type": "keyword"},
+    	"espversion": {"type": "keyword"},
+    	"picversion": {"type": "integer"},
+    	"heapsize": {"type": "long"},
+    	"freeheap": {"type": "long"},
+    	"localtime": {"type": "date", "format": "yyyy-MM-dd HH:mm:ss"},
+    	"starttime": {"type": "date", "format": "yyyy-MM-dd HH:mm:ss"}
+    }
+  }
+}
+
+PUT /ssc_acesso
+{
+  "mappings": {
+    "properties": {
+      "permitido": {"type": "boolean"},
+      "usuario": {
+        "properties": {
+          "nome": {"type": "text"},
+          "vinculo": {"type": "boolean"},
+          "registro": {"type": "keyword"},
+          "id": {"type": "integer"},
+          "horario_cadastrado": {"type": "date"},
+          "horario_tag": {"type": "date"}
+        }
+      },
+      "tag": {
+        "properties": {
+          "id": {"type": "integer"},
+          "codigo": {"type": "keyword"},
+          "horario": {"type": "date"}
+        }
+      },
+      "sala": {
+        "properties": {
+          "numero": {"type": "integer"},
+          "nome_completo": {"type": "text"},
+          "nome_curto": {"type": "keyword"},
+          "id": {"type": "integer"},
+          "horario": {"type": "date"}
+        }
+      },
+      "horario": {"type": "date"}
+    }
+  }
+}
+
+
+--- V2 TESTE. Esse index é apenas para teste
+PUT /ssc_sensor
+{
+  "mappings": {
+    "properties": {
+      "documento": {
+        "type": "join",
+        "relations": {
+           "sala": "sensor"
+        }
+      },
+      "nome_completo" : {"type" : "text"},
+      "nome_curto" : {"type": "text", "fields": {"keyword": {"type" : "keyword"}}},
+      "nome_sensor" : {"type": "text", "fields": {"keyword": {"type" : "keyword"}}},
+      "numero" : {"type" : "integer"},
+      "timestamp" : {"type": "date", "format": "yyyy-MM-dd HH:mm:ss"},
+      "valor" : {"type" : "integer"}
+    }
+  }
+}
